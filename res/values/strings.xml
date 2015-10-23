@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="app_name">VideoPlus</string>
+    <string name="OK">OK</string>
+    <string name="menu_exit">Exit</string>
+    
+    <!--  dialog -->
+    <string name="dialogCancel">No</string>
+    <string name="dialogOK">OK</string>
+    <string name="quitDialogTitle">Notice</string>
+    
+</resources>

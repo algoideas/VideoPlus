@@ -1,0 +1,105 @@
+LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)    
+LOCAL_MODULE    := libUsageEnvironment
+LOCAL_SRC_FILES := liblive555/libUsageEnvironment.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := libgroupsock
+LOCAL_SRC_FILES := liblive555/libgroupsock.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := libliveMedia
+LOCAL_SRC_FILES := liblive555/libliveMedia.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := libBasicUsageEnvironment
+LOCAL_SRC_FILES := liblive555/libBasicUsageEnvironment.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := libavcodec
+LOCAL_SRC_FILES := ffmpeg/android/armv7-a/lib/libavcodec.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := libavdevice
+LOCAL_SRC_FILES := ffmpeg/android/armv7-a/lib/libavdevice.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := libavfilter
+LOCAL_SRC_FILES := ffmpeg/android/armv7-a/lib/libavfilter.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := libavformat
+LOCAL_SRC_FILES := ffmpeg/android/armv7-a/lib/libavformat.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := libavutil
+LOCAL_SRC_FILES := ffmpeg/android/armv7-a/lib/libavutil.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := libpostproc
+LOCAL_SRC_FILES := ffmpeg/android/armv7-a/lib/libpostproc.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := libswresample
+LOCAL_SRC_FILES := ffmpeg/android/armv7-a/lib/libswresample.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := libswscale
+LOCAL_SRC_FILES := ffmpeg/android/armv7-a/lib/libswscale.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := libx264
+LOCAL_SRC_FILES := ffmpeg/libx264/libx264.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+
+# ***** streamer *****
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := streamer
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/UsageEnvironment/include \
+	$(LOCAL_PATH)/groupsock/include \
+	$(LOCAL_PATH)/liveMedia \
+	$(LOCAL_PATH)/BasicUsageEnvironment/include \
+	$(LOCAL_PATH)/liveMedia/include  \
+	$(LOCAL_PATH)/streamer/jni-include  \
+	$(LOCAL_PATH)/ffmpeg/android/armv7-a/include \
+	$(LOCAL_PATH)/ffmpeg/x264/include
+
+LOCAL_CFLAGS := -march=armv7-a -mfloat-abi=softfp -mfpu=neon
+LOCAL_CFLAGS += -DSOCKLEN_T=socklen_t -D_LARGEFILE_SOURCE=1 -D_FILE_OFFSET_BITS=64 -Wall -DBSD=1 -DANDROID -llog
+LOCAL_LDFLAGS += -Wl,--export-dynamic --enable-libx264
+
+LOCAL_SRC_FILES := streamer/src/streamer.cpp
+
+LOCAL_LDLIBS += -llog -ldl -lz -lm
+
+LOCAL_STATIC_LIBRARIES := \
+		libavformat \
+		libavdevice \
+		libavcodec \
+		libavutil \
+		libavfilter \
+		libpostproc \
+		libswresample \
+		libswscale \
+		libx264 \
+		libliveMedia \
+		libgroupsock \
+		libBasicUsageEnvironment \
+		libUsageEnvironment \
+    
+include $(BUILD_SHARED_LIBRARY)
